@@ -26,5 +26,6 @@ namespace Cinema.Controllers
 
             return View();
         }
+        
     }
 }

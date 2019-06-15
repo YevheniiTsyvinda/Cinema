@@ -1,5 +1,0 @@
-#syntax: glob
-Cinema/packages/*
-Cinema/Cinema/bin/*
-Cinema/Cinema/obj/*
-Cinema/Cinema/.vs/*

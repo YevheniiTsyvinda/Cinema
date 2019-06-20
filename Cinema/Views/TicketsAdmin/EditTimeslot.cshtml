@@ -1,0 +1,20 @@
+﻿@model Cinema.Models.Tickets.Timeslot
+@using Cinema.Models.Tickets
+@section SubNav{
+    @Html.Partial("~/Views/Shared/SubNavigation.cshtml", SubNavigationMenu.Timeslots)
+}
+<h2>Edit Timeslot</h2>
+@using (Html.BeginForm("EditTimeslot", "TicketsAdmin"))
+{
+    @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.HallId)
+    @Html.HiddenFor(x => x.MovieId)
+    @Html.HiddenFor(x => x.TariffId)
+  
+    <div class="form-group">
+        @Html.LabelFor(x => x.StartTime)
+        @Html.EditorFor(x => x.StartTime, new { htmlattributes = new { @class = "form-control" } })
+    </div>
+
+    <input type="submit" value="Save changes" class="btn btn-success" />
+}

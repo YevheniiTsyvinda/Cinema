@@ -25,8 +25,10 @@
                     <li>@Html.ActionLink("О программе", "About", "Home")</li>
                     <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Вход", "LogIn", "Account")</li>
+                    <li>@Html.ActionLink("Admin", "GetMoviesList", "TicketsAdmin")</li>
                 </ul>
             </div>
+            @RenderSection("SubNav", required: false)
         </div>
     </div>
     <div class="container body-content">

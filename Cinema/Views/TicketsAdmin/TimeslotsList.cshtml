@@ -1,0 +1,33 @@
+﻿@model Cinema.Models.Tickets.Timeslot[]
+@using Cinema.Models.Tickets
+
+@section SubNav{
+    @Html.Partial("~/Views/Shared/SubNavigation.cshtml", SubNavigationMenu.Timeslots)
+}
+<h2>Timeslot list</h2>
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th class="col">Id</th>
+            <th class="col">Start time</th>
+            <th class="col">Movie Id</th>
+            <th class="col">Hall Id</th>
+            <th class="col">Tariff Id</th>
+            <th class="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var timeslot in Model)
+        {
+            <tr>
+                <td>@timeslot.Id</td>
+                <td>@timeslot.StartTime</td>
+                <td>@timeslot.MovieId</td>
+                <td>@timeslot.HallId</td>
+                <td>@timeslot.TariffId</td>
+                <td>@Html.ActionLink("Edit", "EditTimeslot", "TicketsAdmin", new { TimesloteId = timeslot.Id }, new { @class = "btn btn-primary btn-block" })</td>
+            </tr>
+        }
+    </tbody>
+   
+</table>

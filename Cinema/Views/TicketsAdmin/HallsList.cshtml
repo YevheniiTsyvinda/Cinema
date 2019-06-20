@@ -1,0 +1,27 @@
+﻿@model Cinema.Models.Tickets.Hall[]
+@using Cinema.Models.Tickets
+
+@section SubNav{
+    @Html.Partial("~/Views/Shared/SubNavigation.cshtml", SubNavigationMenu.Halls)
+}
+<h2>Halls List</h2>
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th class="col">Id</th>
+            <th class="col">Name</th>
+            <th class="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var hall in Model)
+        {
+            <tr>
+                <td>@hall.Id</td>
+                <td>@hall.Name</td>
+                <td>@Html.ActionLink("Edit", "EditHall", "TicketsAdmin", new { hallId = hall.Id }, new { @class = "btn btn-primary btn-block" }) </td>
+            </tr>
+        }
+    </tbody>
+   
+</table>

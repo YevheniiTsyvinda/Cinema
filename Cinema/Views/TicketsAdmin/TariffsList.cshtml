@@ -1,0 +1,30 @@
+﻿@model Cinema.Models.Tickets.Tariff[]
+@using Cinema.Models.Tickets
+
+@section SubNav{
+    @Html.Partial("~/Views/Shared/SubNavigation.cshtml", SubNavigationMenu.Tariffs)
+}
+<h2>Tariff List</h2>
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th class="col">Id</th>
+            <th class="col">Name</th>
+            <th class="col">Cost</th>
+            <th class="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tariff in Model)
+        {
+            <tr>
+                <td>@tariff.Id</td>
+                <td>@tariff.Name</td>
+                <td>@tariff.Cost</td>
+
+                <td>@Html.ActionLink("Edit", "EditTariff", "TicketsAdmin", new { tariffId = tariff.Id }, new { @class = "btn btn-primary btn-block" }) </td>
+            </tr>
+        }
+    </tbody>
+    
+</table>

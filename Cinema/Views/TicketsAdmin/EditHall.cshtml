@@ -1,0 +1,16 @@
+﻿@model Cinema.Models.Tickets.Hall
+@using Cinema.Models.Tickets
+@section SubNav{
+    @Html.Partial("~/Views/Shared/SubNavigation.cshtml", SubNavigationMenu.Halls)
+}
+<h2>Edit Hall</h2>
+@using (Html.BeginForm("EditHall", "TicketsAdmin"))
+{
+    @Html.HiddenFor(x => x.Id)
+    <div class="form-group">
+        @Html.LabelFor(x => x.Name)
+        @Html.EditorFor(x => x.Name, new { htmlattributes = new { @class = "form-control" } })
+    </div>
+
+    <input type="submit" value="Save changes" class="btn btn-success"/>
+}

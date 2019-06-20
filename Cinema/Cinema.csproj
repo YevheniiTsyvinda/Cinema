@@ -130,11 +130,15 @@
     <Compile Include="Models\Tickets\Genre.cs" />
     <Compile Include="Models\Tickets\Hall.cs" />
     <Compile Include="Models\Tickets\Movie.cs" />
+    <Compile Include="Models\Tickets\SubNavigationMenu.cs" />
     <Compile Include="Models\Tickets\Tariff.cs" />
     <Compile Include="Models\Tickets\TicketsJsonModel.cs" />
     <Compile Include="Models\Tickets\Timeslot.cs" />
     <Compile Include="Models\Tickets\Type.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ITicketService.cs" />
+    <Compile Include="Services\JsonTicketService.cs" />
+    <Compile Include="Utils\EnumUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -174,6 +178,18 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Login.cshtml" />
     <Content Include="Views\LoginResult.cshtml" />
+    <Content Include="Views\TicketsAdmin\MoviesList.cshtml" />
+    <Content Include="Views\TicketsAdmin\EditMovie.cshtml" />
+    <Content Include="Views\Editors\Types.cshtml" />
+    <Content Include="Views\Editors\Genres.cshtml" />
+    <Content Include="Views\Shared\SubNavigation.cshtml" />
+    <Content Include="Views\TicketsAdmin\HallsList.cshtml" />
+    <Content Include="Views\TicketsAdmin\TariffsList.cshtml" />
+    <Content Include="Views\TicketsAdmin\TimeslotsList.cshtml" />
+    <Content Include="Views\TicketsAdmin\EditTimeslot.cshtml" />
+    <Content Include="Views\TicketsAdmin\EditTariff.cshtml" />
+    <Content Include="Views\TicketsAdmin\EditHall.cshtml" />
+    <Content Include="Views\TicketsAdmin\AddMovie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

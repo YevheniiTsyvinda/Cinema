@@ -7,14 +7,14 @@
 @using (Html.BeginForm("EditTimeslot", "TicketsAdmin"))
 {
     @Html.HiddenFor(x => x.Id)
-    @Html.HiddenFor(x => x.HallId)
-    @Html.HiddenFor(x => x.MovieId)
-    @Html.HiddenFor(x => x.TariffId)
-  
+
     <div class="form-group">
         @Html.LabelFor(x => x.StartTime)
         @Html.EditorFor(x => x.StartTime, new { htmlattributes = new { @class = "form-control" } })
     </div>
+    @Html.Partial("~/Views/Editors/MoviesList.cshtml", Model.MovieId)
+    @Html.Partial("~/Views/Editors/HallsList.cshtml", Model.HallId)
+    @Html.Partial("~/Views/Editors/TariffsList.cshtml", Model.TariffId)
 
     <input type="submit" value="Save changes" class="btn btn-success" />
 }

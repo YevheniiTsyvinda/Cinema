@@ -1,0 +1,20 @@
+﻿@using Cinema.Models.Tickets
+
+@model int?
+@{
+    var tariffsList = (Tariff[])ViewData["TariffsList"];
+}
+
+<div class="form-group">
+    <label>Tariff</label>
+    <select multiple name="TariffId" id="TariffId" class="form-control">
+        @if (tariffsList != null)
+        {
+            foreach (var tariff in tariffsList)
+            {
+                <option value="@tariff.Id" @(Model != null && tariff.Id == Model ? "selected" : string.Empty)>@tariff.Name</option>
+            }
+        }
+        
+    </select>
+</div>

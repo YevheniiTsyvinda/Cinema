@@ -1,0 +1,18 @@
+﻿@model Cinema.Models.Tickets.Timeslot
+@using Cinema.Models.Tickets
+@section SubNav{
+    @Html.Partial("~/Views/Shared/SubNavigation.cshtml", SubNavigationMenu.Timeslots)
+}
+<h2>Add Timeslot</h2>
+@using (Html.BeginForm("AddTimeslot", "TicketsAdmin"))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.StartTime)
+        @Html.EditorFor(x => x.StartTime, new { htmlattributes = new { @class = "form-control" } })
+    </div>
+    @Html.Partial("~/Views/Editors/MoviesList.cshtml")
+    @Html.Partial("~/Views/Editors/HallsList.cshtml")
+    @Html.Partial("~/Views/Editors/TariffsList.cshtml")
+
+    <input type="submit" value="Add timeslot" class="btn btn-success" />
+}

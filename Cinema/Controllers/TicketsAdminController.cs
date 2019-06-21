@@ -1,4 +1,5 @@
-﻿using Cinema.Models.Tickets;
+﻿using Cinema.Attributes;
+using Cinema.Models.Tickets;
 using Cinema.Services;
 using Newtonsoft.Json;
 using System.Linq;
@@ -130,6 +131,7 @@ namespace Cinema.Controllers
             return View("~/Views/TicketsAdmin/TimeslotsList.cshtml", timeslots);
         }
         [HttpGet]
+        [PopulateMoviesList,PopulateHallsList,PopulateTariffsList]
         public ActionResult EditTimeslot(int timesloteId)
         {
             var timeslote = _ticketSetvice.GetTimeslotById(timesloteId);
@@ -140,6 +142,22 @@ namespace Cinema.Controllers
         {
             var updateResult = _ticketSetvice.UpdateTimeslot(updateTimeslot);
             if (updateResult)
+            {
+                return RedirectToAction("GetTimeslotsList");
+            }
+            return Content("Update failed. Pleace, contact system administrator");
+        }
+        [HttpGet]
+        [PopulateMoviesList, PopulateHallsList, PopulateTariffsList]
+        public ActionResult AddTimeslot()
+        {
+            return View("~/Views/TicketsAdmin/AddTimeslot.cshtml");
+        }
+        [HttpPost]
+        public ActionResult AddTimeslot(Timeslot newTimeslot)
+        {
+            var creationResult = _ticketSetvice.CreateTimeslot(newTimeslot);
+            if (creationResult)
             {
                 return RedirectToAction("GetTimeslotsList");
             }

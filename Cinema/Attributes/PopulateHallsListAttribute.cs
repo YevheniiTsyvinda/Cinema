@@ -9,11 +9,10 @@ namespace Cinema.Attributes
 {
     public class PopulateHallsListAttribute : ActionFilterAttribute
     {
+        public ITicketService TicketService { get; set; }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var ticketService = new JsonTicketService(HttpContext.Current);
-
-            filterContext.Controller.ViewData["HallsList"] = ticketService.GetAllHalls();
+            filterContext.Controller.ViewData["HallsList"] = TicketService.GetAllHalls();
 
             base.OnActionExecuting(filterContext);
         }

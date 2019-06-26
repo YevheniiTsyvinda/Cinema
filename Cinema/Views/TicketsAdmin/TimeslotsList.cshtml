@@ -1,4 +1,4 @@
-﻿@model Cinema.Models.Tickets.Timeslot[]
+﻿@model TimeslotGridRow[]
 @using Cinema.Models.Tickets
 
 @section SubNav{
@@ -12,24 +12,26 @@
     <thead>
         <tr>
             <th class="col">Id</th>
-            <th class="col">Start time</th>
-            <th class="col">Movie Id</th>
-            <th class="col">Hall Id</th>
-            <th class="col">Tariff Id</th>
+            <th class="col">Start</th>
+            <th class="col">Movie</th>
+            <th class="col">Hall</th>
+            <th class="col">Tariff</th>
             <th class="col">Action</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var timeslot in Model)
         {
-            <tr>
-                <td>@timeslot.Id</td>
-                <td>@timeslot.StartTime</td>
-                <td>@timeslot.MovieId</td>
-                <td>@timeslot.HallId</td>
-                <td>@timeslot.TariffId</td>
-                <td>@Html.ActionLink("Edit", "EditTimeslot", "TicketsAdmin", new { TimesloteId = timeslot.Id }, new { @class = "btn btn-primary btn-block" })</td>
-            </tr>
+        <tr>
+            <td>@timeslot.Id</td>
+            <td>@timeslot.StartTime</td>
+            <td>@timeslot.MovieName</td>
+            <td>@timeslot.HallName</td>
+            <td>@timeslot.TariffName</td>
+            <td>@Html.ActionLink("Edit", "EditTimeslot", "TicketsAdmin", new { TimesloteId = timeslot.Id }, new { @class = "btn btn-primary btn-block" })
+            @Html.ActionLink("Remove", "RemoveTimeslot", "TicketsAdmin", new { TimesloteId = timeslot.Id }, new { @class = "btn btn-danger btn-block" })</td>
+
+        </tr>
         }
     </tbody>
 

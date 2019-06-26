@@ -11,5 +11,7 @@
         public Genre[] Genres { get; set; }
         public int MinAge { get; set; }
         public string ImageUrl { get; set; }
+
+        public string FormattedGenres => string.Join(", ", Genres);
     }
 }

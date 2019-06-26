@@ -8,12 +8,13 @@ using System.Web.Mvc;
 namespace Cinema.Attributes
 {
     public class PopulateMoviesListAttribute : ActionFilterAttribute
-    {
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            var ticketService = new JsonTicketService(HttpContext.Current);
+    { 
+        public ITicketService TicketService { get; set; }
 
-            filterContext.Controller.ViewData["MoviesList"] = ticketService.GetAllMovies();
+    public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+
+            filterContext.Controller.ViewData["MoviesList"] = TicketService.GetAllMovies();
 
             base.OnActionExecuting(filterContext);
         }

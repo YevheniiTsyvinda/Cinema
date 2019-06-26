@@ -10,11 +10,23 @@
 
     <div class="form-group">
         @Html.LabelFor(x => x.StartTime)
-        @Html.EditorFor(x => x.StartTime, new { htmlattributes = new { @class = "form-control" } })
+        <div class="input-group date" id="@Html.IdFor(x=>x.StartTime)">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+            <input type='text' name="@Html.NameFor(x=>x.StartTime)" class="form-control" value="@Model.StartTime" />
+        </div>
     </div>
     @Html.Partial("~/Views/Editors/MoviesList.cshtml", Model.MovieId)
     @Html.Partial("~/Views/Editors/HallsList.cshtml", Model.HallId)
     @Html.Partial("~/Views/Editors/TariffsList.cshtml", Model.TariffId)
 
     <input type="submit" value="Save changes" class="btn btn-success" />
+}
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#@Html.IdFor(x => x.StartTime)').datetimepicker({ format: 'DD.MM.YYYY hh:mm:ss' });
+        });
+    </script>
 }

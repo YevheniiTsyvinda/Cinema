@@ -1,0 +1,19 @@
+﻿@model Tariff
+@using Cinema.Models.Tickets
+@section SubNav{
+    @Html.Partial("~/Views/Shared/SubNavigation.cshtml", SubNavigationMenu.Halls)
+}
+<h2>Add Tariff</h2>
+@using (Html.BeginForm("AddTariff", "TicketsAdmin"))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.Name)
+        @Html.EditorFor(x => x.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Cost)
+        @Html.EditorFor(x => x.Cost)
+    </div>
+
+    <input type="submit" value="Add tariff" class="btn btn-success" />
+}

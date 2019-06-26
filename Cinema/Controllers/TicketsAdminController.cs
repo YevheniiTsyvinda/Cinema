@@ -2,6 +2,7 @@
 using Cinema.Models.Tickets;
 using Cinema.Services;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -13,11 +14,10 @@ namespace Cinema.Controllers
 
         private readonly ITicketService _ticketSetvice;
 
-        public TicketsAdminController()
+        public TicketsAdminController(ITicketService ticketService)
         {
-            _ticketSetvice = new JsonTicketService(System.Web.HttpContext.Current);
+            _ticketSetvice = ticketService;
         }
-
         public ActionResult FindMovieById(int id)
         {
             var movie = _ticketSetvice.GetMovieById(id);
@@ -61,7 +61,7 @@ namespace Cinema.Controllers
         public ActionResult EditMovie(Movie updateMovie)
         {
             var updateResult = _ticketSetvice.UpdateMovie(updateMovie);
-            if(updateResult)
+            if (updateResult)
             {
                 return RedirectToAction("GetMoviesList");
             }
@@ -128,10 +128,11 @@ namespace Cinema.Controllers
         public ActionResult GetTimeslotsList()
         {
             var timeslots = _ticketSetvice.GetAllTimeslots();
-            return View("~/Views/TicketsAdmin/TimeslotsList.cshtml", timeslots);
+            var resultModel = ProcessTimeslots(timeslots);
+            return View("~/Views/TicketsAdmin/TimeslotsList.cshtml", resultModel);
         }
         [HttpGet]
-        [PopulateMoviesList,PopulateHallsList,PopulateTariffsList]
+        [PopulateMoviesList, PopulateHallsList, PopulateTariffsList]
         public ActionResult EditTimeslot(int timesloteId)
         {
             var timeslote = _ticketSetvice.GetTimeslotById(timesloteId);
@@ -167,8 +168,98 @@ namespace Cinema.Controllers
         {
             var timeslots = _ticketSetvice.GetAllTimeslots();
             timeslots = timeslots.Where(x => x.MovieId == movieId).ToArray();
-            return View("~/Views/TicketsAdmin/TimeslotsList.cshtml", timeslots);
+            var resultModel = ProcessTimeslots(timeslots);
+            return View("~/Views/TicketsAdmin/TimeslotsList.cshtml", resultModel);
+        }
+        private TimeslotGridRow[] ProcessTimeslots(Timeslot[] timeslots)
+        {
+            var movies = _ticketSetvice.GetAllMovies();
+            var halls = _ticketSetvice.GetAllHalls();
+            var tarifs = _ticketSetvice.GetAllTariffs();
+            var resultModel = new List<TimeslotGridRow>();
+            foreach (var timeslot in timeslots)
+            {
+                resultModel.Add(new TimeslotGridRow
+                {
+                    Id = timeslot.Id,
+                    StartTime = timeslot.StartTime,
+                    HallName = halls.First(x => x.Id == timeslot.HallId).Name,
+                    MovieName = movies.First(x => x.Id == timeslot.MovieId).Name,
+                    TariffName = tarifs.First(x => x.Id == timeslot.TariffId).Name,
+                });
+            }
+            return resultModel.ToArray();
+        }
+        [HttpGet]
+        public ActionResult AddHall()
+        {
+            return View("~/Views/TicketsAdmin/AddHall.cshtml");
+        }
+        [HttpPost]
+        public ActionResult AddHall(Hall newHall)
+        {
+            var creationResult = _ticketSetvice.CreateHall(newHall);
+            if (creationResult)
+            {
+                return RedirectToAction("GetHallsList");
+            }
+            return Content("Update failed. Pleace, contact system administrator");
+        }
+        [HttpGet]
+        public ActionResult AddTariff()
+        {
+            return View("~/Views/TicketsAdmin/AddTariff.cshtml");
+        }
+        [HttpPost]
+        public ActionResult AddTariff(Tariff newTariff)
+        {
+            var creationResult = _ticketSetvice.CreateTariff(newTariff);
+            if (creationResult)
+            {
+                return RedirectToAction("GetTariffsList");
+            }
+            return Content("Update failed. Pleace, contact system administrator");
         }
 
+        [HttpGet]
+        public ActionResult RemoveMovie(int movieId)
+        {
+            var removeResult = _ticketSetvice.RemoveMovie(movieId);
+            if (removeResult)
+            {
+                return RedirectToAction("GetMoviesList");
+            }
+            return Content("Remove failed. Pleace, contact system administrator");
+        }
+        [HttpGet]
+        public ActionResult RemoveHall(int hallId)
+        {
+            var removeResult = _ticketSetvice.RemoveHall(hallId);
+            if (removeResult)
+            {
+                return RedirectToAction("GetHallsList");
+            }
+            return Content("Remove failed. Pleace, contact system administrator");
+        }
+        [HttpGet]
+        public ActionResult RemoveTariff(int tariffId)
+        {
+            var removeResult = _ticketSetvice.RemoveTariff(tariffId);
+            if (removeResult)
+            {
+                return RedirectToAction("GetTariffsList");
+            }
+            return Content("Remove failed. Pleace, contact system administrator");
+        }
+        [HttpGet]
+        public ActionResult RemoveTimeslot(int timeslotId)
+        {
+            var removeResult = _ticketSetvice.RemoveTimeslot(timeslotId);
+            if (removeResult)
+            {
+                return RedirectToAction("GetTimeslotsList");
+            }
+            return Content("Remove failed. Pleace, contact system administrator");
+        }
     }
 }

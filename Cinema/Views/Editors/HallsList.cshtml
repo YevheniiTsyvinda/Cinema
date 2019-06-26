@@ -1,0 +1,20 @@
+﻿@using Cinema.Models.Tickets
+
+@model int?
+@{
+    var HallsList = (Hall[])ViewData["HallsList"];
+}
+
+<div class="form-group">
+    <label>Hall</label>
+    <select name="HallId" id="HallId" class="form-control">
+        @if (HallsList != null)
+        {
+            foreach (var hall in HallsList)
+            {
+                <option value="@hall.Id" @(Model != null && hall.Id == Model ? "selected" : string.Empty)>@hall.Name</option>
+            }
+        }
+        
+    </select>
+</div>

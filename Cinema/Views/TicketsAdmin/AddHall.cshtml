@@ -1,0 +1,15 @@
+﻿@model Hall
+@using Cinema.Models.Tickets
+@section SubNav{
+    @Html.Partial("~/Views/Shared/SubNavigation.cshtml", SubNavigationMenu.Halls)
+}
+<h2>Add Hall</h2>
+@using (Html.BeginForm("AddHall", "TicketsAdmin"))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.Name)
+        @Html.EditorFor(x => x.Name)
+    </div>
+
+    <input type="submit" value="Add hall" class="btn btn-success" />
+}

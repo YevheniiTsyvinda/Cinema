@@ -1,6 +1,7 @@
 ﻿using Cinema.Models.Tickets;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
@@ -11,9 +12,9 @@ namespace Cinema.Services
         private HttpContext Context { get; set; }
         private const string PathToJson = "~/Files/Tickets.json";
 
-        public JsonTicketService(HttpContext context)
+        public JsonTicketService()
         {
-            Context = context;
+            Context = HttpContext.Current;
         }
 
         public Hall[] GetAllHalls()
@@ -161,12 +162,10 @@ namespace Cinema.Services
             if (timeslotToUpdate == null)
                 return false;
 
-            timeslotToUpdate.Id = updateTimeslot.Id;
             timeslotToUpdate.MovieId = updateTimeslot.MovieId;
             timeslotToUpdate.HallId = updateTimeslot.HallId;
             timeslotToUpdate.StartTime = updateTimeslot.StartTime;
             timeslotToUpdate.TariffId = updateTimeslot.TariffId;
-
 
             SaveDataToFile(fullModel);
             return true;
@@ -197,7 +196,7 @@ namespace Cinema.Services
             var fullModel = GetDataFromFile();
             try
             {
-                var newTimeslotId = fullModel.Timeslots.Max(movie => movie.Id) + 1;
+                var newTimeslotId = fullModel.Timeslots.Max(x => x.Id) + 1;
                 newTimeslot.Id = newTimeslotId;
                 var existingTimeslotList = fullModel.Timeslots.ToList();
                 existingTimeslotList.Add(newTimeslot);
@@ -210,6 +209,187 @@ namespace Cinema.Services
 
                 return false;
             }
+        }
+
+        public bool CreateHall(Hall createHall)
+        {
+            var fullModel = GetDataFromFile();
+            try
+            {
+                var newHallId = fullModel.Halls.Max(x => x.Id) + 1;
+                createHall.Id = newHallId;
+                var existingHallList = fullModel.Halls.ToList();
+                existingHallList.Add(createHall);
+                fullModel.Halls = existingHallList.ToArray();
+                SaveDataToFile(fullModel);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool CreateTariff(Tariff createTariff)
+        {
+            var fullModel = GetDataFromFile();
+            try
+            {
+                var newTariffId = fullModel.Tariffs.Max(x => x.Id) + 1;
+                createTariff.Id = newTariffId;
+                var existingTariffList = fullModel.Tariffs.ToList();
+                existingTariffList.Add(createTariff);
+                fullModel.Tariffs = existingTariffList.ToArray();
+                SaveDataToFile(fullModel);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        private Timeslot[] GetTimeslotsByMovieId(int movieId)
+        {
+            var timeslots = GetAllTimeslots().Where(x => x.MovieId == movieId).ToArray();
+            return timeslots;
+        }
+
+        public MovieListItem[] GetFullMoviesInfo()
+        {
+            var movies = GetAllMovies();
+            var resultModel = new List<MovieListItem>();
+            foreach (var movie in movies)
+            {
+                resultModel.Add(new MovieListItem
+                {
+                    Movie = movie,
+                    AvailableTimeslots = GetTimeslotTagsByMovieId(movie.Id)
+                });
+            }
+            return resultModel.ToArray();
+        }
+
+        public TimeslotTag[] GetTimeslotTagsByMovieId(int movieId)
+        {
+            var timeslots = GetTimeslotsByMovieId(movieId);
+            var tariffs = GetAllTariffs();
+            var resultModel = new List<TimeslotTag>();
+
+            foreach (var timeslot in timeslots)
+            {
+                resultModel.Add(new TimeslotTag {
+                    TimeslotId = timeslot.Id,
+                    StartTime = timeslot.StartTime,
+                    Cost = tariffs.FirstOrDefault(x=>x.Id == timeslot.TariffId)?.Cost ?? 0
+                });
+            }
+            return resultModel.ToArray();
+        }
+
+        public bool RemoveMovie(int movieId)
+        {
+            var fullModel = GetDataFromFile();
+            try
+            {
+                var existingMovie = fullModel.Movies.ToList();
+                existingMovie.RemoveAll(x => x.Id == movieId);
+                fullModel.Movies = existingMovie.ToArray();
+                SaveDataToFile(fullModel);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool RemoveHall(int hallId)
+        {
+            var fullModel = GetDataFromFile();
+            try
+            {
+                var existingHall = fullModel.Halls.ToList();
+                existingHall.RemoveAll(x => x.Id == hallId);
+                fullModel.Halls = existingHall.ToArray();
+                SaveDataToFile(fullModel);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool RemoveTariff(int tariffId)
+        {
+            var fullModel = GetDataFromFile();
+            try
+            {
+                var existingTariff = fullModel.Tariffs.ToList();
+                existingTariff.RemoveAll(x => x.Id == tariffId);
+                fullModel.Tariffs = existingTariff.ToArray();
+                SaveDataToFile(fullModel);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool RemoveTimeslot(int timeslotId)
+        {
+            var fullModel = GetDataFromFile();
+            try
+            {
+                var existingTimeslot = fullModel.Timeslots.ToList();
+                existingTimeslot.RemoveAll(x => x.Id == timeslotId);
+                fullModel.Timeslots = existingTimeslot.ToArray();
+                SaveDataToFile(fullModel);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool AddRequestedSeatsToTimeslot(SeatsProcessRequest request)
+        {
+            var fullModel = GetDataFromFile();
+            var timeslotToUpdate = fullModel.Timeslots.
+                FirstOrDefault(timeslot => timeslot.Id == request.TimeslotId);
+            if (timeslotToUpdate == null)
+                return false;
+
+            List<TimeslotSeatRequest> requestToProcess;
+            if (timeslotToUpdate.RequestedSeats != null && timeslotToUpdate.RequestedSeats.Any())
+            {
+                requestToProcess = timeslotToUpdate.RequestedSeats.ToList();
+            }
+            else
+            {
+                requestToProcess = new List<TimeslotSeatRequest>();
+            }
+
+            if (request?.SeatsRequest?.AddedSeats == null || !request.SeatsRequest.AddedSeats.Any())
+                return false;
+
+            foreach (var addedSeats in request.SeatsRequest.AddedSeats)
+            {
+                requestToProcess.Add(new TimeslotSeatRequest
+                {
+
+                    Row = addedSeats.Row,
+                    Seat = addedSeats.Seat,
+                    Status = request.SelectedStatus
+                });
+            }
+        
+            timeslotToUpdate.RequestedSeats = requestToProcess.ToArray();
+            SaveDataToFile(fullModel);
+            return true;
+            
         }
     }
 }

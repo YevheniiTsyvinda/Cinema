@@ -1,0 +1,31 @@
+﻿@model Cinema.Models.Tickets.Timeslot
+@using Cinema.Models.Tickets
+@section SubNav{
+    @Html.Partial("~/Views/Shared/SubNavigation.cshtml", SubNavigationMenu.Timeslots)
+}
+<h2>Add Timeslot</h2>
+@using (Html.BeginForm("AddTimeslot", "TicketsAdmin"))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.StartTime)
+        <div class="input-group date" id="@Html.IdFor(x=>x.StartTime)">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+            <input type='text' name="@Html.NameFor(x=>x.StartTime)" class="form-control" />
+        </div>
+    </div>
+    @Html.Partial("~/Views/Editors/MoviesList.cshtml")
+    @Html.Partial("~/Views/Editors/HallsList.cshtml")
+    @Html.Partial("~/Views/Editors/TariffsList.cshtml")
+
+    <input type="submit" value="Add timeslot" class="btn btn-success" />
+}
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#@Html.IdFor(x => x.StartTime)').datetimepicker({format:'DD.MM.YYYY hh:mm:ss'});
+        });
+    </script>
+}

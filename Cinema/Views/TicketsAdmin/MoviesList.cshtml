@@ -22,16 +22,18 @@
     <tbody>
         @foreach (var movie in Model)
         {
-            <tr>
-                <td> @movie.Id </td>
-                <td> <img src="@movie.ImageUrl" style="max-height: 100px" /> </td>
-                <td>@movie.Name</td>
-                <td>@movie.Description</td>
-                <td class="col-lg-2">
-                    @Html.ActionLink("Edit", "EditMovie", "TicketsAdmin", new { movieId = movie.Id }, new {@class = "btn btn-primary btn-block" })
-                    @Html.ActionLink("Timeslots", "GetMovieTimeslotsList", "TicketsAdmin", new { movieId = movie.Id }, new { @class = "btn btn-primary btn-block" })
-                </td>
-            </tr>
+        <tr>
+            <td> @movie.Id </td>
+            <td> <img src="@movie.ImageUrl" style="max-height: 100px" /> </td>
+            <td>@movie.Name</td>
+            <td>@movie.Description</td>
+            <td class="col-lg-2">
+                @Html.ActionLink("Edit", "EditMovie", "TicketsAdmin", new { movieId = movie.Id }, new { @class = "btn btn-primary btn-block" })
+                @Html.ActionLink("Timeslots", "GetMovieTimeslotsList", "TicketsAdmin", new { movieId = movie.Id }, new { @class = "btn btn-primary btn-block" })
+                @Html.ActionLink("Remove", "RemoveMovie", "TicketsAdmin", new { movieId = movie.Id }, new { @class = "btn btn-danger btn-block" })
+            
+            </td>
+        </tr>
         }
     </tbody>
 </table>

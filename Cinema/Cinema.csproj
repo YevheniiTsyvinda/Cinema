@@ -47,6 +47,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="LightInject, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\LightInject.5.0.0\lib\net46\LightInject.dll</HintPath>
     </Reference>
@@ -130,6 +136,14 @@
     <Compile Include="Controllers\TicketsAdminController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="DbConnection\Db.cs" />
+    <Compile Include="DTO\GenreDTO.cs" />
+    <Compile Include="DTO\HallDTO.cs" />
+    <Compile Include="DTO\MovieDTO.cs" />
+    <Compile Include="DTO\RequestedSeatsDTO.cs" />
+    <Compile Include="DTO\TariffDTO.cs" />
+    <Compile Include="DTO\TimeslotDTO.cs" />
+    <Compile Include="DTO\TypeDTO.cs" />
     <Compile Include="Extensions\IntExtentions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

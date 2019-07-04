@@ -47,6 +47,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=8.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.8.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -166,12 +169,19 @@
     <Compile Include="Models\Tickets\TimeslotSeatRequest.cs" />
     <Compile Include="Models\Tickets\TimeslotTag.cs" />
     <Compile Include="Models\Tickets\Type.cs" />
+    <Compile Include="Profiles\SqlDataReaderProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ITicketService.cs" />
     <Compile Include="Services\JsonTicketService.cs" />
+    <Compile Include="Services\SqlTicketService.cs" />
     <Compile Include="Utils\EnumUtil.cs" />
+    <Compile Include="Utils\SqlDataBaseUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\CinemaDb.mdf" />
+    <Content Include="App_Data\CinemaDb_log.ldf">
+      <DependentUpon>CinemaDb.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -259,7 +269,6 @@
     <Content Include="Views\Tickets\HallInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Files\" />
     <Folder Include="Views\Account\" />
   </ItemGroup>

@@ -9,6 +9,6 @@ namespace Cinema.Models.Tickets
     {
         public int Row { get; set; }
         public int Seat { get; set; }
-        //public RequestStatus SelectedStatus { get;  set; }
+       
     }
 }

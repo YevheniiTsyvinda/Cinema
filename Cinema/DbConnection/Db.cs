@@ -12,12 +12,12 @@ namespace Cinema.DbConnection
         public Db():base("CinemaDbConnection")
         { }
 
-        DbSet<GenreDTO> Genres { get; set; }
-        DbSet<TypeDTO> Types { get; set; }
-        DbSet<MovieDTO> Movies { get; set; }
-        DbSet<HallDTO> Halls { get; set; }
-        DbSet<TariffDTO> Tariffs { get; set; }
-        DbSet<RequestedSeatsDTO> RequestedSeats { get; set; }
-        DbSet<TimeslotDTO> Timeslots { get; set; }
+        public DbSet<GenreDTO> Genres { get; set; }
+        public DbSet<TypeDTO> Types { get; set; }
+        public DbSet<MovieDTO> Movies { get; set; }
+        public DbSet<HallDTO> Halls { get; set; }
+        public DbSet<TariffDTO> Tariffs { get; set; }
+        public DbSet<RequestedSeatsDTO> RequestedSeats { get; set; }
+        public DbSet<TimeslotDTO> Timeslots { get; set; }
     }
 }

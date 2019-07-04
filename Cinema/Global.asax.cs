@@ -1,8 +1,10 @@
-﻿using Cinema.Services;
+﻿using AutoMapper;
+using Cinema.Services;
 using LightInject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -14,8 +16,8 @@ namespace Cinema
     {
         protected void Application_Start()
         {
-            var container = new ServiceContainer();
-            container.RegisterControllers();
+            var container = new ServiceContainer(); //создание контейнера LigthInject
+            container.RegisterControllers(); //
 
 
             AreaRegistration.RegisterAllAreas();
@@ -23,8 +25,34 @@ namespace Cinema
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            container.Register<ITicketService, JsonTicketService>(new PerRequestLifeTime());
+            InitialAutomapperProfiles(container);
+            //container.Register<ITicketService, JsonTicketService>(new PerRequestLifeTime()); // регистрация контейнера
+            container.Register<ITicketService, SqlTicketService>(new PerRequestLifeTime());
             container.EnableMvc();
+        }
+
+        private static void InitialAutomapperProfiles(ServiceContainer container)
+        {
+            var assembly = Assembly.GetCallingAssembly(); //получение вызываемой библиотеки dll
+            var definedTypes = assembly.DefinedTypes;
+
+            //выбираем все типы которые унаследованы от Profile
+            var profiles = definedTypes.Where(type => typeof(Profile).GetTypeInfo().IsAssignableFrom(type) && !type.IsAbstract).ToArray();
+
+            //проходимся по всем Profile и регистрируем все типы
+            void ConfigAction(IMapperConfigurationExpression cfg)
+            {
+                foreach (var profile in profiles.Select(t => t.AsType()))
+                {
+                    cfg.AddProfile(profile);
+
+                }
+            }
+            Mapper.Initialize(ConfigAction);
+            MapperConfiguration config = (MapperConfiguration)Mapper.Configuration;
+            config.AssertConfigurationIsValid();
+
+            container.Register(sp => config.CreateMapper(), new PerRequestLifeTime());
         }
     }
 }

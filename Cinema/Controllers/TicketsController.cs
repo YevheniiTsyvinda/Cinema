@@ -1,4 +1,6 @@
 ﻿using Cinema.Attributes;
+using Cinema.Factories;
+using Cinema.Models.Reports;
 using Cinema.Models.Tickets;
 using Cinema.Services;
 using Newtonsoft.Json;
@@ -43,6 +45,21 @@ namespace Cinema.Controllers
             {
                 requestResult = requestProcessingResult
             });
+        }
+        [HttpGet]
+        public ActionResult Reports()
+        {
+            return View("~/Views/Tickets/Reports/Reports.cshtml");
+        }
+
+        public ActionResult GetReportForm(ReportType type)
+        {
+            var currentView = ReportsFactory.GetReportFormView(type);
+            return PartialView(currentView);
+        }
+        public ActionResult BuildReport()
+        {
+            return null;
         }
     }
 }

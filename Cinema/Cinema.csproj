@@ -56,6 +56,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.0.0.999, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.0.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="LightInject, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\LightInject.5.0.0\lib\net46\LightInject.dll</HintPath>
     </Reference>
@@ -71,6 +74,18 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -135,6 +150,7 @@
     <Compile Include="Attributes\PopulateHallsListAttribute.cs" />
     <Compile Include="Attributes\PopulateTariffsListAttribute.cs" />
     <Compile Include="Attributes\PopulateMoviesListAttribute.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Controllers\TicketsAdminController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -148,6 +164,11 @@
     <Compile Include="DTO\TimeslotDTO.cs" />
     <Compile Include="DTO\TypeDTO.cs" />
     <Compile Include="Extensions\IntExtentions.cs" />
+    <Compile Include="Factories\ReportsFactory.cs" />
+    <Compile Include="Models\Reports\BaseReportForm.cs" />
+    <Compile Include="Models\Reports\UnprofitableMoviesReportForm.cs" />
+    <Compile Include="Models\Reports\PotentialRealProfitReportForm.cs" />
+    <Compile Include="Models\Reports\ReportType.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -158,6 +179,7 @@
     <Compile Include="Models\Tickets\Hall.cs" />
     <Compile Include="Models\Tickets\Movie.cs" />
     <Compile Include="Models\Tickets\RequestStatus.cs" />
+    <Compile Include="Models\Tickets\SearchFilmResult.cs" />
     <Compile Include="Models\Tickets\SeatsProcessRequest.cs" />
     <Compile Include="Models\Tickets\SeatsRequest.cs" />
     <Compile Include="Models\Tickets\SelectedSeat.cs" />
@@ -171,6 +193,14 @@
     <Compile Include="Models\Tickets\Type.cs" />
     <Compile Include="Profiles\SqlDataReaderProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\IReportBuilder.cs" />
+    <Compile Include="Reports\PotencialRealProfitReportModel.cs" />
+    <Compile Include="Reports\PotencialRealProfitReportStrategy.cs" />
+    <Compile Include="Reports\PotentialRealProfitReportRow.cs" />
+    <Compile Include="Reports\ReportBaseStrategy.cs" />
+    <Compile Include="Reports\UnprofitableMoviesReportModel.cs" />
+    <Compile Include="Reports\UnprofitableMoviesReportRow.cs" />
+    <Compile Include="Reports\UnprofitableMoviesReportStrategy.cs" />
     <Compile Include="Services\ITicketService.cs" />
     <Compile Include="Services\JsonTicketService.cs" />
     <Compile Include="Services\SqlTicketService.cs" />
@@ -230,6 +260,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\reports.js" />
     <Content Include="Scripts\schedule-film.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -267,10 +298,14 @@
     <Content Include="Views\TicketsAdmin\AddTariff.cshtml" />
     <Content Include="Views\Tickets\MoviesList.cshtml" />
     <Content Include="Views\Tickets\HallInfo.cshtml" />
+    <Content Include="Views\Tickets\Reports\PotentialRealProfitForm.cshtml" />
+    <Content Include="Views\Tickets\Reports\UnprofitableMoviesForm.cshtml" />
+    <Content Include="Views\Tickets\Reports\Reports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\" />
     <Folder Include="Views\Account\" />
+    <Folder Include="Views\Tickets\Search\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

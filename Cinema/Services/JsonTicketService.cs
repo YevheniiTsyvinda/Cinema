@@ -391,5 +391,10 @@ namespace Cinema.Services
             return true;
             
         }
+
+        public MovieListItem[] SerchMoviesByTerm(string term)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

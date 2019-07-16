@@ -20,7 +20,8 @@ namespace Cinema.Utils
             Mapper = mapper;
             ConnectionString = ConfigurationManager.ConnectionStrings["Cinema"].ConnectionString;
         }
-        public IEnumerable<T> Execute<T>(string storedProcedureName)
+        
+        public IEnumerable<T> Execute<T>(string storedProcedureName,SqlParameter[] parameters = null,Func<SqlDataReader, List<T>,List<T>> mappingFunc = null)
         {
             SqlConnection connection = null;
             SqlDataReader reader = null;
@@ -32,23 +33,55 @@ namespace Cinema.Utils
 
                 SqlCommand cmd = new SqlCommand(storedProcedureName, connection);
                 cmd.CommandType = CommandType.StoredProcedure;
-
+                if(parameters !=null && parameters.Any())
+                {
+                    cmd.Parameters.AddRange(parameters);
+                }
+                
                 reader = cmd.ExecuteReader();
-                if(reader.HasRows)
+                if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
                         results.Add(Mapper.Map<T>(reader));
                     }
                 }
-                return results;
+                if (mappingFunc !=null)
+                {
+                    results = mappingFunc(reader, results);
+                }
             }
             finally
             {
                 connection?.Close();
                 reader?.Close();
-                
             }
+            return results;
+        }
+        public int ExecuteNonQuery(string storedProcedureName, SqlParameter[] parameters = null)
+        {
+            SqlConnection connection = null;
+            int results;
+            try
+            {
+                connection = new SqlConnection(ConnectionString);
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand(storedProcedureName, connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                if (parameters != null && parameters.Any())
+                {
+                    cmd.Parameters.AddRange(parameters);
+                }
+
+                results = cmd.ExecuteNonQuery();
+               
+            }
+            finally
+            {
+                connection?.Close();
+            }
+            return results;
         }
     }
 }

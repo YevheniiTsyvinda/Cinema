@@ -24,6 +24,8 @@ namespace Cinema
                       "~/Scripts/handlebars.js",
                        "~/Scripts/schedule-film.js",
                       "~/Scripts/bootstrap.js",
+                      "~/Scripts/search-film.js",
+                      "~/Scripts/reports.js",
                       "~/Scripts/moment-with-locales.min.js",
                       "~/Scripts/bootstrap-datetimepicker.js",
                        "~/Scripts/respond.js"));

@@ -34,5 +34,7 @@ namespace Cinema.Services
         TimeslotTag[] GetTimeslotTagsByMovieId(int movieId);
 
         bool AddRequestedSeatsToTimeslot(SeatsProcessRequest request);
+
+        MovieListItem[] SerchMoviesByTerm(string term);
     }
 }

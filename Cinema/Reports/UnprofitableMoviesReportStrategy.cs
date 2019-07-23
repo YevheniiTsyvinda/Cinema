@@ -20,7 +20,7 @@ namespace Cinema.Reports
             {
                  new SqlParameter("@DateFrom",(DateTime)Parameters["DateFrom"]),
                 new SqlParameter("@DateTo",(DateTime)Parameters["DateTo"]),
-                 new SqlParameter("@ThresholdId",(float)Parameters["Treshold"])
+                 new SqlParameter("@Threshold",(float)Parameters["Threshold"])
            };
 
             var reportRows = DataBaseUtil.Execute<UnprofitableMoviesReportRow>("UnprofitableMovies", parametr);

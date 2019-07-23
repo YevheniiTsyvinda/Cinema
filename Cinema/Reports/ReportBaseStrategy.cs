@@ -7,6 +7,8 @@ using System.Web.Hosting;
 using AutoMapper;
 using Cinema.Utils;
 using NPOI.SS.UserModel;//библиотека для работы с excel
+using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace Cinema.Reports
 {
@@ -32,21 +34,21 @@ namespace Cinema.Reports
 
             InternalBuildReport(fileName, model); //берёт файл, заполняет его данными и сохраняет
 
-            return GetFileNameUrl(fileName); // возвращаем ссылку на скачивание файла
+            return GetFileLinkUrl(fileName); // возвращаем ссылку на скачивание файла
         }
 
-        private string GetFileNameUrl(string filePath) //получение линка к файлу
+        private string GetFileLinkUrl(string filePath) //получение линка к файлу
         {
             var approot = HostingEnvironment.ApplicationPhysicalPath.TrimEnd('\\');
             return filePath.Replace(approot, string.Empty).Replace('\\', '/');
         }
 
-        private void InternalBuildReport(string fileName, T model)
+        protected void InternalBuildReport(string fileName, T model)
         {
-            var templatePath = HostingEnvironment.MapPath(Constants.ReportsDirectory); //получение пути к отчётам. путь установлен в web.config
+            var templatePath = HostingEnvironment.MapPath(Path.Combine(Constants.ExcelTemplatesDirectory, TemplateFileName)); //получение пути к отчётам. путь установлен в web.config
             if (string.IsNullOrEmpty(templatePath))
             {
-                throw new ApplicationException($"Unable to map path \'{templatePath}'\".");
+                throw new ApplicationException($"Unable to map path \"{templatePath}\".");
             }
 
             using (var templateFileStream = new FileStream(templatePath,FileMode.Open,FileAccess.Read))
@@ -64,7 +66,7 @@ namespace Cinema.Reports
             var targetFilePath = HostingEnvironment.MapPath(fileName);
             if (string.IsNullOrEmpty(targetFilePath))
             {
-                throw new ApplicationException($"Unable to map path \'{fileName}\'");
+                throw new ApplicationException($"Unable to map path \"{fileName}\"");
             }
             if (File.Exists(targetFilePath))// проверяем существует ли отчёт. если да, удаляем
             {

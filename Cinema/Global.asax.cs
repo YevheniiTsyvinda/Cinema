@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Cinema.Managers;
 using Cinema.Services;
 using LightInject;
 using System;
@@ -28,6 +29,7 @@ namespace Cinema
             InitialAutomapperProfiles(container);
             //container.Register<ITicketService, JsonTicketService>(new PerRequestLifeTime()); // регистрация контейнера
             container.Register<ITicketService, SqlTicketService>(new PerRequestLifeTime());
+            container.Register<ICacheManager, CacheManager>(new PerRequestLifeTime());
             container.EnableMvc();
         }
 

@@ -11,6 +11,6 @@ namespace Cinema.Reports
 
         public float GuaranteedProfit { get; set; }
 
-        public float PotencialProfit { get; set; }
+        public float PotentialProfit { get; set; }
     }
 }

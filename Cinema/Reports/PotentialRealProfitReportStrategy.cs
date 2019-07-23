@@ -8,13 +8,12 @@ using NPOI.SS.UserModel;
 
 namespace Cinema.Reports
 {
-    public class PotencialRealProfitReportStrategy : ReportBaseStrategy<PotencialRealProfitReportModel>
+    public class PotentialRealProfitReportStrategy : ReportBaseStrategy<PotentialRealProfitReportModel>
     {
-        public PotencialRealProfitReportStrategy(IMapper mapper):base(mapper)
+        public PotentialRealProfitReportStrategy(IMapper mapper):base(mapper)
         {
-
         }
-        protected override PotencialRealProfitReportModel GetDataModel()
+        protected override PotentialRealProfitReportModel GetDataModel()
         {
             var parameters = new[]
             {
@@ -23,7 +22,7 @@ namespace Cinema.Reports
             };
 
             var reportRows = DataBaseUtil.Execute<PotentialRealProfitReportRow>("PotentialRealProfit", parameters);
-            return new PotencialRealProfitReportModel
+            return new PotentialRealProfitReportModel
             {
                 Rows = reportRows
             };
@@ -31,15 +30,15 @@ namespace Cinema.Reports
 
         protected override string InternalGetDownloadFileName()
         {
-            return "PotencialRealProfitReport";
+            return "PotentialRealProfitReport";
         }
 
         protected override string InternalGetTemplateFileName()
         {
-            return "PotencialRealProfitReport.xlsx";
+            return "PotentialRealProfitReport.xlsx";
         }
 
-        protected override void ProcessWorkBook(IWorkbook workbook, PotencialRealProfitReportModel model)
+        protected override void ProcessWorkBook(IWorkbook workbook, PotentialRealProfitReportModel model)
         {
             var sheet = workbook.GetSheetAt(0);
             var rowIndex = 1;
@@ -48,17 +47,18 @@ namespace Cinema.Reports
                 var documentRow = sheet.CreateRow(rowIndex);
                 documentRow.CreateCell(SummaryColumns.MovieName).SetCellValue(row.Name);
                 documentRow.CreateCell(SummaryColumns.GuaranteedProfit).SetCellValue(row.GuaranteedProfit);
-                documentRow.CreateCell(SummaryColumns.PotencialProfit).SetCellValue(row.PotencialProfit);
+                documentRow.CreateCell(SummaryColumns.PotentialProfit).SetCellValue(row.PotentialProfit);
+                rowIndex++;
             }
             sheet.AutoSizeColumn(SummaryColumns.MovieName);
             sheet.AutoSizeColumn(SummaryColumns.GuaranteedProfit);
-            sheet.AutoSizeColumn(SummaryColumns.PotencialProfit);
+            sheet.AutoSizeColumn(SummaryColumns.PotentialProfit);
         }
         private static class SummaryColumns//класс описывает структуру отчёта в excel
         {
             public const int MovieName = 0;
             public const int GuaranteedProfit = 1;
-            public const int PotencialProfit = 2;
+            public const int PotentialProfit = 2;
         }
     }
 }

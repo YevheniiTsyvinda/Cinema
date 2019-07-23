@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Cinema.Reports
 {
-    public class PotencialRealProfitReportModel
+    public class PotentialRealProfitReportModel
     {
         public IEnumerable<PotentialRealProfitReportRow> Rows { get; set; }
     }

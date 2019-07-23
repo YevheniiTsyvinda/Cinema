@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using AutoMapper;
 using Cinema.Models.Reports;
 using Cinema.Reports;
@@ -25,14 +26,28 @@ namespace Cinema.Factories
             }
         }
 
-        public static IReportBuilder GetStrategy(BaseReportForm form,IMapper mapper)
+        public static BaseReportForm GetReportFormModel(ControllerContext context, ReportType type,IMapper mapper)
+        {
+            switch (type)
+            {
+                case ReportType.PotentialRealProfit:
+                    return mapper.Map<PotentialRealProfitReportForm>(context);
+                case ReportType.UnprofitableMovies:
+                    return mapper.Map<UnprofitableMoviesReportForm>(context);
+                   
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type),type, null);
+            }
+        }
+
+        public static IReportBuilder GetReportStrategy(BaseReportForm form,IMapper mapper)
         {
             switch (form.ReportType)
             {
                 case ReportType.PotentialRealProfit:
                     {
                         var formModel = (PotentialRealProfitReportForm)form;
-                        var strategy = new PotencialRealProfitReportStrategy(mapper)
+                        var strategy = new PotentialRealProfitReportStrategy(mapper)
                         {
                             Parameters = formModel.GetParameters()
                         };

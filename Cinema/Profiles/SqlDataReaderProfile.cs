@@ -79,11 +79,12 @@ namespace Cinema.Profiles
             CreateMap<SqlDataReader, PotentialRealProfitReportRow>()
                .ForMember(x => x.Name, x => x.MapFrom(z => z["Name"]))
                .ForMember(x => x.GuaranteedProfit, x => x.MapFrom(z => z["GuaranteedProfit"]))
-               .ForMember(x => x.PotencialProfit, x => x.MapFrom(z => z["PotencialProfit"]));
+               .ForMember(x => x.PotentialProfit, x => x.MapFrom(z => z["PotentialProfit"]));
 
             CreateMap<SqlDataReader, UnprofitableMoviesReportRow>()
                .ForMember(x => x.MovieName, x => x.MapFrom(z => z["MovieName"]))
                .ForMember(x => x.Profit, x => x.MapFrom(z => z["Profit"]));
+                
 
             CreateMap<SqlDataReader, MovieListItem>() //процедура выполняется в 2 запроса.
                 .ForMember(x => x.Movie, x => x.MapFrom(z => Mapper.Map<Movie>(z)))//в первом выбираются все фильмы
